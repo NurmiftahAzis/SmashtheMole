@@ -1,16 +1,14 @@
 package popuppanic;
 
 import java.awt.*;
-import javax.swing.*;
 
 public class Bomb extends GameObject {
 
     private Image img;
-    private boolean visible = false;
     private long visibleTimer = 0;
     private final long MAX_VISIBLE_DURATION = 1500;
 
-    private final String IMAGE_PATH = "assets/bomb.png";
+    private final String IMAGE_PATH = "src/assets/bomb.png";
 
     public Bomb(int x, int y, int w, int h) {
         super(x, y, w, h);
@@ -26,11 +24,11 @@ public class Bomb extends GameObject {
     @Override
     public void update(long dt) {
         // memperbarui status bom berdasarkan waktu
-        if (visible) {
+        if (isVisible()) {
             visibleTimer += dt;
 
             if (visibleTimer >= MAX_VISIBLE_DURATION) {
-                visible = false;
+                setVisible(false);
                 visibleTimer = 0;
             }
         }
@@ -39,16 +37,15 @@ public class Bomb extends GameObject {
     @Override
     public void render(Graphics2D g) {
         // menggambar bom jika tampil
-        if (visible) {
+        if (isVisible()) {
             if (img != null) {
                 g.drawImage(img, x, y, width, height, null);
             } else {
-
                 // pengganti jika gambar gagal dimuat
                 g.setColor(Color.RED);
                 g.fillRect(x, y, width, height);
                 g.setColor(Color.BLACK);
-                g.drawString("BOMB", x + width/4, y + height/2);
+                g.drawString("BOMB", x + width / 4, y + height / 2);
             }
         }
     }
@@ -56,7 +53,8 @@ public class Bomb extends GameObject {
     @Override
     public boolean contains(Point p) {
         // memeriksa apakah titik klik berada di area bom
-        if (!visible) return false;
+        if (!isVisible()) // gunakan getter
+            return false;
 
         return getBounds().contains(p);
     }
@@ -64,21 +62,16 @@ public class Bomb extends GameObject {
     @Override
     public void onClick() {
         // aksi ketika bom diklik
-        if (visible) {
+        if (isVisible()) {
             System.out.println("Bomb clicked! GAME OVER!");
-            visible = false;
+            setVisible(false); // gunakan setter
             visibleTimer = 0;
         }
     }
 
-    public boolean isVisible() {
-        // mengembalikan status apakah bom sedang terlihat
-        return visible;
-    }
-
     public void popUp(long duration) {
         // menampilkan bom selama durasi tertentu
-        this.visible = true;
-        this.visibleTimer = 0; // reset timer
+        setVisible(true);
+        visibleTimer = 0; // reset timer
     }
 }

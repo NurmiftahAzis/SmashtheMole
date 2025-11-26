@@ -9,27 +9,27 @@ public class Hole extends GameObject {
 
     public Hole(int x, int y, int w, int h) {
         super(x, y, w, h);
-        // TODO: inisialisasi gambar lubang
+        // load gambar lubang
+        img = new ImageIcon("src/assets/hole.png").getImage();
+        setVisible(true); // hole selalu terlihat
     }
 
     @Override
     public void update(long dt) {
-        // TODO: update state lubang (jika diperlukan)
+        // kosong, soalnya lubang gak gerak atau ngapa-ngapain
     }
 
     @Override
     public void render(Graphics2D g) {
-        // TODO: menggambar lubang ke layar
+        g.drawImage(img, x, y, width, height, null);
     }
 
     @Override
     public boolean contains(Point p) {
-        // TODO: cek apakah lubang diklik
-        return false;
+        return false; // lubang gak bisa diklik, jadi return false terus
     }
 
     @Override
     public void onClick() {
-        // TODO: aksi saat lubang diklik
-    }
+    } // gak ada aksi apa2
 }
