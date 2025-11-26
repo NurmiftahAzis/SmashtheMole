@@ -9,38 +9,68 @@ public class Mole extends GameObject {
     private boolean visible = false;
     private long visibleTimer = 0;
 
+    private final long MAX_VISIBLE_DURATION = 1500;
+    private final String IMAGE_PATH = "assets/mole.png";
+
     public Mole(int x, int y, int w, int h) {
         super(x, y, w, h);
-        // TODO: memuat gambar mole
+        
+        try {
+            this.img = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH);
+        } catch (Exception e) {
+            System.err.println("error Loading Mole Image: " + e.getMessage());
+        }
     }
 
     @Override
     public void update(long dt) {
-        // TODO: update timer kemunculan mole
+        if (visible) {
+            visibleTimer += dt;
+
+            if (visibleTimer >= MAX_VISIBLE_DURATION) {
+                visible = false;
+                visibleTimer = 0;
+            }
+        }
     }
 
     @Override
     public void render(Graphics2D g) {
-        // TODO: menggambar mole jika sedang terlihat
+        if (visible) {
+            if (img != null) {
+                g.drawImage(img, x, y, width, height, null);
+            } else {
+                g.setColor(Color.ORANGE);
+                g.fillRect(x, y, width, height);
+                g.setColor(Color.BLACK);
+                g.drawString("MOLE", x + width/4, y + height/2);
+            }
+        }
     }
 
     @Override
     public boolean contains(Point p) {
-        // TODO: cek apakah mole diklik
-        return false;
+        if (!visible) return false;
+
+        return getBounds().contains(p);
     }
 
     @Override
     public void onClick() {
-        // TODO: aksi ketika mole diklik
+        if (visible) {
+            System.out.println("Mole clicked! +1 point!");
+
+            visible = false;
+            visibleTimer = 0;
+        }
     }
 
     public boolean isVisible() {
-        // TODO: mengembalikan status visibility mole
-        return false;
+        return visible;
     }
 
     public void popUp(long duration) {
-        // TODO: menampilkan mole selama durasi tertentu
+        this.visible = true;
+        this.visibleTimer = 0; // reset timer
     }
 }
