@@ -10,15 +10,40 @@ public class GameLoop extends Thread {
     private JComponent view;
 
     public GameLoop(List<GameObject> objects, JComponent view) {
-        // TODO: inisialisasi daftar objek dan komponen view
+        this.objects = objects;
+        this.view = view;
     }
 
     public void terminate() {
-        // TODO: menghentikan loop permainan
+        running = false;
     }
 
     @Override
     public void run() {
-        // TODO: menjalankan loop utama permainan
+        final int TARGET_FPS = 60;
+        final int FRAME_TIME = 1000 / TARGET_FPS; // ~16ms per frame
+
+        while (running) {
+            long start = System.currentTimeMillis();
+
+            // 1. UPDATE semua object
+            for (GameObject obj : objects) {
+                obj.update();
+            }
+
+            // 2. REPAINT STAGE
+            view.repaint();
+
+            // 3. FRAME CONTROL
+            long elapsed = System.currentTimeMillis() - start;
+            long wait = FRAME_TIME - elapsed;
+
+            if (wait > 0) {
+                try {
+                    Thread.sleep(wait);
+                } catch (InterruptedException e) { }
+            }
+        }
     }
 }
+

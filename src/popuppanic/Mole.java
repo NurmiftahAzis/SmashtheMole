@@ -67,4 +67,15 @@ public class Mole extends GameObject {
         setVisible(true);
         visibleTimer = 0; // reset batas tampil
     }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    public void spawn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'spawn'");
+    }
 }

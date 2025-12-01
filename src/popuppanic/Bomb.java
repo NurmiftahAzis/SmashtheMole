@@ -74,4 +74,15 @@ public class Bomb extends GameObject {
         setVisible(true);
         visibleTimer = 0; // reset timer
     }
+
+    public void spawn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'spawn'");
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
 }

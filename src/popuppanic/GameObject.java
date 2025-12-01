@@ -44,4 +44,6 @@ public abstract class GameObject implements GameEntity {
     public int getY() {
         return y;
     }
+
+    protected abstract void update();
 }
