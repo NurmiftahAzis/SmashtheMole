@@ -2,7 +2,7 @@ package popuppanic.core;
 
 import java.awt.*;
 
-public abstract class GameObject implements GameEntity {
+public abstract class GameObject {
 
     // posisi dan ukuran objek di game
     protected int x, y, width, height;
@@ -17,6 +17,23 @@ public abstract class GameObject implements GameEntity {
         this.width = w;
         this.height = h;
     }
+
+    // menggambar objek pada layar permainan
+    // dipanggil setiap frame oleh GameLoop untuk menampilkan visual objek
+    public abstract void render(Graphics2D g);
+
+    // memperbarui logika internal objek berdasarkan waktu yang berlalu
+    // dt (delta time) digunakan untuk menghitung durasi dan perubahan state objek
+    public abstract void update(long dt);
+
+    // memeriksa apakah titik klik mouse berada di dalam area objek
+    // digunakan untuk mendeteksi interaksi pemain terhadap objek
+    public abstract boolean contains(Point p);
+
+    // menjalankan aksi saat objek menerima interaksi klik dari pemain
+    // setiap objek memiliki respons berbeda (contoh: Mole menambah skor, Bomb
+    // mengakhiri permainan)
+    public abstract void onClick();
 
     // buat kotak batas objek, dipakai buat deteksi klik / collision
     public Rectangle getBounds() {
